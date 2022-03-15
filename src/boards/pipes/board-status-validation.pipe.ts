@@ -21,9 +21,9 @@ export class BoardStatusValidationPipe implements PipeTransform {
       throw new BadRequestException(`${value} isn't in the status`);
     }
 
-    return value;
     // return 값은 라우트 핸들러로 전달됨
     // -> 만약, 예외(Exception)이 발생하면 클라이언트에 바로 전달됨
+    return value;
   }
 
   // 받은 값의 타입은 any 아무거나 들어올 수 있음
