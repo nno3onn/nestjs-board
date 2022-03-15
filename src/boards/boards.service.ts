@@ -27,7 +27,6 @@ export class BoardsService {
 
   getBoardById(id: string): Board {
     const board = this.boards.find((board) => board.id === id);
-
     if (!board) {
       throw new NotFoundException(`Can't find Board with id ${id}`);
     }
@@ -36,21 +35,17 @@ export class BoardsService {
 
   deleteBoard(id: string): void {
     const board = this.getBoardById(id);
-
     if (!board) {
       throw new NotFoundException();
     }
-
     this.boards = this.boards.filter((board) => board.id !== id);
   }
 
   updateBoardStatus(id: string, status: BoardStatus): Board {
     const board = this.getBoardById(id);
-
     if (!board) {
       throw new NotFoundException();
     }
-
     board.status = status;
     return board;
   }
