@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Patch,
   Post,
+  UseGuards,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
@@ -17,6 +19,8 @@ import { CreateBoardDto } from './dto/create-board.dto';
 import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe';
 
 @Controller('boards')
+// 모든 핸들러에 AuthGuard 영향을 줌 (인증된 유저만 게시물을 보고 쓸 수 있도록 함)
+@UseGuards(AuthGuard())
 export class BoardsController {
   constructor(private boardService: BoardsService) {}
 
