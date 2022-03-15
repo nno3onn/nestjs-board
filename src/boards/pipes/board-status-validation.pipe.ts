@@ -3,7 +3,7 @@ import {
   BadRequestException,
   PipeTransform,
 } from '@nestjs/common';
-import { BoardStatus } from '../board.model';
+import { BoardStatus } from '../board-status.enum';
 
 // 커스텀 파이프 구현
 // PipeTransform: 모든 파이프에서 구현해줘야만 하는 인터페이스

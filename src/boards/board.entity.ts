@@ -1,5 +1,5 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
-import { BoardStatus } from './board.model';
+import { BoardStatus } from './board-status.enum';
 
 // TypeORM
 // - 작성한 class를 DB의 table로 변환해줌
