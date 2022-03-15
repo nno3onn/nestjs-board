@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Logger,
   Param,
   ParseIntPipe,
   Patch,
@@ -24,6 +25,8 @@ import { BoardStatusValidationPipe } from './pipes/board-status-validation.pipe'
 // 모든 핸들러에 AuthGuard 영향을 줌 (인증된 유저만 게시물을 보고 쓸 수 있도록 함)
 @UseGuards(AuthGuard())
 export class BoardsController {
+  // Logger(로그를 발생시킨 위치)
+  private logger = new Logger('BoardsController');
   constructor(private boardService: BoardsService) {}
 
   // @Get()
@@ -33,6 +36,7 @@ export class BoardsController {
 
   @Get()
   getAllBoard(@GetUser() user: User): Promise<Board[]> {
+    this.logger.verbose(`User ${user.username} trying to get all boards`);
     return this.boardService.getAllBoards(user);
   }
 
@@ -51,11 +55,16 @@ export class BoardsController {
   @Post()
   @UsePipes(ValidationPipe)
   createBoard(
-    @Body() CreateBoardDto: CreateBoardDto,
+    @Body() createBoardDto: CreateBoardDto,
     // 커스텀 데코레이터. token 속 user 정보도 같이 전달받음
     @GetUser() user: User,
   ): Promise<Board> {
-    return this.boardService.createBoard(CreateBoardDto, user);
+    this.logger.verbose(
+      `User ${user.username} creating a new board. Payload: ${JSON.stringify(
+        createBoardDto,
+      )}`,
+    );
+    return this.boardService.createBoard(createBoardDto, user);
   }
 
   // @Get('/:id')
