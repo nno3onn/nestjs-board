@@ -5,6 +5,7 @@ import { UserRepository } from './user.repository';
 import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './passport.strategy';
 
 @Module({
   imports: [
@@ -19,7 +20,12 @@ import { PassportModule } from '@nestjs/passport';
     }),
     TypeOrmModule.forFeature([UserRepository]),
   ],
-  providers: [AuthService],
+  exports: [
+    // 두 파일은 auth module 뿐만 아니라, 다른 모듈에서도 사용이 됨
+    JwtStrategy,
+    PassportModule,
+  ],
+  providers: [AuthService, JwtStrategy],
   controllers: [AuthController],
 })
 export class AuthModule {}
