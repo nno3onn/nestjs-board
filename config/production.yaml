@@ -1,0 +1,4 @@
+# default.yaml에서 설정한 것 + 운영 환경에서 필요한 정보
+
+db:
+  synchronize: false # 데이터가 날아갈 위험 이있으므로 production에선 false

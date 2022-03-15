@@ -4,6 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { ExtractJwt, Strategy } from 'passport-jwt';
 import { User } from './user.entity';
 import { UserRepository } from './user.repository';
+import * as config from 'config';
 
 @Injectable()
 // strategy를 작성을 완료한 후, 작동시키기 위해서는 auth module의 providers에 추가해주어야만 함
@@ -18,7 +19,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     // 이와 같은 파생 클래스(extends를 사용하는 class)는 super() 함수가 먼저 호출되어야만 this 키워드를 사용할 수 있다.
     // 그렇지 않으면 참조 오류가 발생함.
     super({
-      secretOrKey: 'SECRET_KEY', // jwt sercret key(signature) 토큰 생성 시 사용한 값과 동일한 값으로 작성 (토큰이 유효한지 확인하는데에 사용됨)
+      secretOrKey: process.env.JWT_SECRET || config.get('jwt.secret'), // jwt sercret key(signature) 토큰 생성 시 사용한 값과 동일한 값으로 작성 (토큰이 유효한지 확인하는데에 사용됨)
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(), // 토큰이 어디서 왔는가
     });
   }
