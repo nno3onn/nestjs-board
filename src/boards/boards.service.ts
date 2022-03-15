@@ -20,8 +20,13 @@ export class BoardsService {
   //   return this.boards;
   // }
 
-  async getAllBoards(): Promise<Board[]> {
-    return this.boardRepository.find();
+  async getAllBoards(user: User): Promise<Board[]> {
+    // createQueryBuilder(쿼리할 테이블명)
+    const query = this.boardRepository.createQueryBuilder('board');
+    query.where('board.userId = :userId', { userId: user.id });
+    const boards = await query.getMany(); // 전체 게시글을 불러옴 (getOne도 있음)
+
+    return boards;
   }
 
   // createBoard(createBoardDto: CreateBoardDto): Board {
