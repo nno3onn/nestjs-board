@@ -25,6 +25,11 @@ export class BoardsController {
   //   return this.boardService.getAllBoards();
   // }
 
+  @Get()
+  getAllBoard(): Promise<Board[]> {
+    return this.boardService.getAllBoards();
+  }
+
   // @Post()
   // // Handler-level Pipes
   // // 메서드(createBoard)가 호출되기 직전에 파이프를 삽입하고,
