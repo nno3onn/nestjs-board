@@ -31,7 +31,8 @@ export class User extends BaseEntity {
   // - 관계를 형성하기 위해선 엔티티에 서로간의 필드를 넣어야 함
   // - type: 관계 형성할 entity 작성
   // - 두 번째 파라미터: 관계 형성할 entity의 column 작성
-  // - eager: true - user를 가져올 때 board 데이터도 함께 가져오겠다
+  // - eager: true - user를 가져올 때 board 데이터도 함께 가져오겠다 (조인할 필요 없이 자동으로 가져옴)
+  //     eager은 한 쪽에서만 true로 사용할 수 있음
   @OneToMany((type) => Board, (board) => board.user, { eager: true })
   boards: Board[];
 }

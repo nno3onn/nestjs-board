@@ -29,7 +29,7 @@ export class Board extends BaseEntity {
   @Column()
   status: BoardStatus;
 
-  // eager: false 이므로, board 데이터를 가져와도 user 정보를 가져오진 않음
+  // eager: false
   @ManyToOne((type) => User, (user) => user.boards, { eager: false })
   user: User;
 }

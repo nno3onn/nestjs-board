@@ -1,3 +1,4 @@
+import { User } from 'src/auth/user.entity';
 import { EntityRepository, Repository } from 'typeorm';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
@@ -16,7 +17,10 @@ import { CreateBoardDto } from './dto/create-board.dto';
 // extends Repository: Find, Insert, Delete 등 entity를 컨트롤 할 수 있게 됨
 // 저장소는 Board entity를 제어함
 export class BoardRepository extends Repository<Board> {
-  async createBoard(createBoardDto: CreateBoardDto): Promise<Board> {
+  async createBoard(
+    createBoardDto: CreateBoardDto,
+    user: User,
+  ): Promise<Board> {
     const { title, description } = createBoardDto;
 
     // create({}): Board entity를 생성함
@@ -24,6 +28,7 @@ export class BoardRepository extends Repository<Board> {
       title,
       description,
       status: BoardStatus.PUBLIC,
+      user,
     });
 
     // save([]): 생성된 객체를 DB에 저장하여 row를 생성함

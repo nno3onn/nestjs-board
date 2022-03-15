@@ -12,6 +12,8 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
+import { GetUser } from 'src/auth/get-user.decorator';
+import { User } from 'src/auth/user.entity';
 import { BoardStatus } from './board-status.enum';
 import { Board } from './board.entity';
 import { BoardsService } from './boards.service';
@@ -48,8 +50,12 @@ export class BoardsController {
 
   @Post()
   @UsePipes(ValidationPipe)
-  createBoard(@Body() CreateBoardDto: CreateBoardDto): Promise<Board> {
-    return this.boardService.createBoard(CreateBoardDto);
+  createBoard(
+    @Body() CreateBoardDto: CreateBoardDto,
+    // 커스텀 데코레이터. token 속 user 정보도 같이 전달받음
+    @GetUser() user: User,
+  ): Promise<Board> {
+    return this.boardService.createBoard(CreateBoardDto, user);
   }
 
   // @Get('/:id')
