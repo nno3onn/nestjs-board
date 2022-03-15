@@ -9,6 +9,8 @@ import {
 import { AuthGuard } from '@nestjs/passport';
 import { AuthService } from './auth.service';
 import { AuthCredentialsDto } from './dto/auth-credential.dto';
+import { GetUser } from './get-user.decorator';
+import { User } from './user.entity';
 
 @Controller('auth')
 export class AuthController {
@@ -22,12 +24,6 @@ export class AuthController {
   }
 
   @Post('/signin')
-  // UseGuards
-  // - NestJS passport 인증 미들웨어
-  // - 작성한 PassportStrategy를 실행시켜줌
-  // (+) 미들웨어 순서
-  //    middleware -> guard -> interceptor -> pipe -> controller -> service -> interceptor -> filter -> client
-  // @UseGuards(AuthGuard())
   signIn(
     @Body(ValidationPipe) authCredentialsDto: AuthCredentialsDto,
   ): Promise<{ accessToken: string }> {
@@ -35,9 +31,16 @@ export class AuthController {
   }
 
   @Post('/test')
+  // UseGuards
+  // - NestJS passport 인증 미들웨어
+  // - 작성한 PassportStrategy를 실행시켜줌
+  // (+) 미들웨어 순서
+  //    middleware -> guard -> interceptor -> pipe -> controller -> service -> interceptor -> filter -> client
+  // @UseGuards(AuthGuard())
   @UseGuards(AuthGuard())
-  test(@Req() req) {
-    console.log(req.user);
+  // GetUesr : custom decorator
+  test(@GetUser() user: User) {
+    console.log(user);
     // User {
     //   id: 7,
     //   username: 'hibye',
